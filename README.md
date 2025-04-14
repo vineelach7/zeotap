@@ -1,143 +1,173 @@
-Here is a README file content for your assignments:
 
----
 
 # **CDAP Wrangler Enhancement & Bidirectional ClickHouse Flat File Data Ingestion Tool**
 
+This repository contains two assignments:
+
+- **Assignment 1:** Enhance CDAP Wrangler with Byte Size and Time Duration Units Parsers  
+- **Assignment 2:** Build a Bidirectional ClickHouse & Flat File Data Ingestion Tool with UI
+
+---
+
 ## **Assignment 1: Enhance Wrangler with Byte Size and Time Duration Units Parsers**
 
-### **Project Overview**
-This project enhances the CDAP Wrangler library by integrating native support for parsing byte sizes (e.g., KB, MB) and time durations (e.g., ms, s) into data processing pipelines. It includes modifications to the grammar, API, core parser, and the creation of a new directive for aggregating byte size and time duration statistics.
+### 📌 Project Overview
+This project improves the CDAP Wrangler data preparation tool by adding support for parsing:
+- Byte size units (e.g., KB, MB, GB)
+- Time duration units (e.g., ms, s, m, h)
 
-### **Features**
-- **Byte Size Parsing**: Automatically convert data values with byte size units (e.g., `10KB`, `1MB`) into a consistent internal format (bytes).
-- **Time Duration Parsing**: Convert time-related values (e.g., `150ms`, `5s`) into a consistent internal format (milliseconds).
-- **Aggregation**: A new aggregate directive (`aggregate-stats`) that processes byte size and time duration columns and computes statistics.
+It also introduces a new directive to compute aggregated statistics from these parsed values.
 
-### **Installation & Setup**
-1. Clone the repository:
+### ✅ Features
+- **Byte Size Parsing**: Converts `10KB`, `1MB` into bytes (`10240`, `1048576`)
+- **Time Duration Parsing**: Converts `200ms`, `2h` into milliseconds (`200`, `7200000`)
+- **New Directive**: `aggregate-stats` for computing summaries (min, max, mean, sum)
+
+### 🛠️ Setup Instructions
+
+1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/cdap-wrangler-enhancement.git
+   git clone https://github.com/vineelach7/zeotap.git
+   cd zeotap/wrangler-enhancement-parser assignment 1
    ```
-2. Navigate to the project directory:
-   ```bash
-   cd cdap-wrangler-enhancement
-   ```
-3. Compile the project:
+
+2. **Build the Project**
    ```bash
    mvn clean install
    ```
-4. Ensure that your environment is set up with the necessary dependencies for CDAP (refer to CDAP's official documentation for more details).
 
-### **Usage**
-1. **Add the Directives in Recipes**:
-   - Use the new `aggregate-stats` directive in your CDAP recipes:
-     ```java
-     aggregate-stats :data_transfer_size :response_time total_size_mb total_time_sec
-     ```
-   - Replace `data_transfer_size` and `response_time` with the actual column names from your dataset.
-   
-2. **Example Input**:
-   - Use CSV files or other data sources with byte size and time duration columns.
-   
-3. **Run**:
-   - Execute the CDAP pipeline with the enhanced Wrangler library and validate the output.
+3. **Requirements**
+   - Java 8+
+   - Apache Maven
+   - CDAP environment
 
-### **Testing**
-- The module includes unit tests for both byte size and time duration parsing as well as the new aggregation logic.
-- Run tests using:
-   ```bash
-   mvn test
-   ```
+### 🚀 Usage
+
+Use the `aggregate-stats` directive in your Wrangler recipe:
+
+```bash
+aggregate-stats :data_transfer_size :response_time total_size_mb total_time_sec
+```
+
+You can apply it to columns that contain strings like `5MB`, `200ms`, etc.
+
+### 🧪 Testing
+
+Run the test suite using:
+```bash
+mvn test
+```
 
 ---
 
 ## **Assignment 2: Bidirectional ClickHouse & Flat File Data Ingestion Tool**
 
-### **Project Overview**
-This project implements a web-based tool to facilitate bidirectional data ingestion between ClickHouse and Flat Files. The tool supports ClickHouse as the source (via JWT token authentication) and allows data ingestion to both ClickHouse and Flat Files. Users can configure connection details, choose tables and columns, and visualize the data flow.
+### 📌 Project Overview
+A web application that allows users to ingest data **to and from ClickHouse and Flat Files**. The tool features a secure authentication mechanism, user-friendly UI, and support for multi-table joins.
 
-### **Features**
-- **Bidirectional Ingestion**: Supports ClickHouse to Flat File and Flat File to ClickHouse data transfer.
-- **ClickHouse Authentication**: Uses JWT token-based authentication for secure ClickHouse connections.
-- **Data Preview**: Users can preview data before ingestion.
-- **Progress Bar**: Visual progress indicator during data transfer.
-- **Multi-Table Joins** (Bonus): Supports joining multiple ClickHouse tables before ingesting into Flat Files.
+### ✅ Features
+- 🔁 **Bidirectional Ingestion**: ClickHouse ↔ Flat File (CSV/JSON)
+- 🔐 **JWT Token Authentication** for ClickHouse
+- 🧭 **UI to Select Tables & Columns**
+- 👁️ **Data Preview**
+- 📊 **Progress Bar**
+- 🔗 **Multi-Table Joins** *(Bonus Feature)*
 
-### **Installation & Setup**
-1. Clone the repository:
+### 🛠️ Setup Instructions
+
+1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/clickhouse-flatfile-ingestion.git
+   git clone https://github.com/vineelach7/zeotap.git
+   cd zeotap/clickhouse-flatfile-ingestion-tool assignment 2
    ```
-2. Navigate to the project directory:
-   ```bash
-   cd clickhouse-flatfile-ingestion
-   ```
-3. Install dependencies:
-   - For backend (Go/Java):
-     ```bash
-     # Go (if using Go)
-     go mod tidy
-     # Java (if using Java)
-     mvn clean install
-     ```
-   - For frontend (React/Vue):
+
+2. **Install Dependencies**
+
+   - **Backend (Go or Java)**:
+     - Go:
+       ```bash
+       go mod tidy
+       go run main.go
+       ```
+     - Java:
+       ```bash
+       mvn clean install
+       mvn spring-boot:run
+       ```
+
+   - **Frontend (React)**:
      ```bash
      npm install
+     npm start
      ```
 
-4. Configure environment variables for ClickHouse connection and JWT token authentication in `.env`:
-   ```bash
-   CLICKHOUSE_HOST=your_clickhouse_host
-   CLICKHOUSE_PORT=your_clickhouse_port
-   CLICKHOUSE_DB=your_database_name
-   CLICKHOUSE_USER=your_username
-   CLICKHOUSE_JWT_TOKEN=your_jwt_token
-   ```
+3. **Environment Variables**
 
-### **Usage**
-1. **Launch Backend Server**:
-   ```bash
-   # For Go backend:
-   go run main.go
-   # For Java backend:
-   mvn spring-boot:run
-   ```
-   
-2. **Launch Frontend**:
-   ```bash
-   npm run start
-   ```
+Create a `.env` file in the root with the following content:
 
-3. **UI Features**:
-   - Select the source (ClickHouse or Flat File).
-   - Provide necessary credentials for ClickHouse.
-   - Select the target (ClickHouse or Flat File).
-   - Preview the data before ingestion.
-   - Start the ingestion process.
+```env
+CLICKHOUSE_HOST=clickhouse.zeotap.internal
+CLICKHOUSE_PORT=9440
+CLICKHOUSE_DB=zeotap_analytics
+CLICKHOUSE_USER=zeo_admin
+CLICKHOUSE_PASSWORD=zeo_secure_pass
+CLICKHOUSE_JWT_TOKEN=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.zeotap-custom-token
 
-### **Testing**
-- The application includes tests for both the frontend and backend components.
-- Run tests using:
-   ```bash
-   # For Go:
-   go test ./...
-   # For Java:
-   mvn test
-   ```
 
-### **Bonus Features**
-- Multi-table ClickHouse join support for data ingestion to Flat Files.
+```
 
-### **Acknowledgments**
-- This project uses ClickHouse as the database source, with JWT token-based authentication for secure access.
-- Frontend developed using React (or Vue, depending on your choice).
+### 🖥️ Usage
+
+1. Start both the backend and frontend servers.
+2. In the UI:
+   - Choose the source (ClickHouse or Flat File)
+   - Enter credentials (for ClickHouse)
+   - Choose destination
+   - Preview data
+   - Ingest with progress bar tracking
+
+### 🧪 Testing
+
+- **Backend**:
+  ```bash
+  go test ./...
+  # or
+  mvn test
+  ```
+
+- **Frontend**:
+  ```bash
+  npm test
+  ```
+
+### 🎁 Bonus
+
+- Users can select multiple ClickHouse tables and define join conditions visually before ingestion.
 
 ---
 
-### **License**
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+## 📂 Project Structure
+
+```bash
+zeotap/
+│
+├── wrangler-enhancement-parser assignment 1/
+│   ├── src/
+│   ├── pom.xml
+│   └── README.md
+│
+└── clickhouse-flatfile-ingestion-tool assignment 2/
+    ├── backend/
+    ├── frontend/
+    ├── .env.example
+    └── README.md
+```
 
 ---
 
-Let me know if you need any changes to the README!
+## 🧾 License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for details.
+
+---
+
