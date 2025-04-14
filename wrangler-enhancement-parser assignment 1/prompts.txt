@@ -1,0 +1,5 @@
+Prompt: Write ANTLR lexer rules to parse 10MB, 100kb, 1.5GB and 200ms, 5s, 2.2sec values.
+Prompt: Implement ByteSize and TimeDuration Java classes for parsing values like "10MB", "2.5s".
+Prompt: Create a custom Wrangler directive for aggregating byte and time columns.
+Prompt: Write unit test using TestingRig to verify aggregation output.
+Prompt: Generate README.md for GitHub that explains new directive and usage.
